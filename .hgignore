@@ -1,3 +1,4 @@
-^source/src/.*
-
+syntax: glob
+source/src/.*
+*.pyc
 
