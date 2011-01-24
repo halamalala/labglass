@@ -1,8 +1,8 @@
-import pyglet.window
+
 #!/usr/bin/env python
 # To change this template, choose Tools | Templates
 # and open the template in the editor.
-
+import pyglet.window
 import pyglet
 import squirtle
 from pyglet import clock
@@ -15,6 +15,7 @@ from pyglet.window import mouse
 import cairo
 import rsvg_di
 
+import logging
 import os
 
 class button():
@@ -244,6 +245,9 @@ class glasswarecontainer(button):
                                              )
 
 class main(pyglet.window.Window):
+    """
+    Main class for the visual interface
+    """
     def __init__(self, width=320,  height=240, resizable=True, visible=True):
         super(main, self).__init__(resizable=resizable)
         self.svg = None
@@ -318,6 +322,11 @@ class main(pyglet.window.Window):
         pass
 
     def save_toxml(self,filename):
+        """
+        Saving the current schematic to xml
+        Params:
+        Filename: the filename to save it to
+        """
         if self.svg is not None:
             if open(self.svg.filename, 'rb').read(3) == '\x1f\x8b\x08': #gzip magic numbers
                 import gzip
@@ -344,6 +353,12 @@ class main(pyglet.window.Window):
                     self.tree.write(filename)
 
     def save_tosvg(self,source,filename):
+        """
+        Saving the current schematic to svg
+        Params:
+        Source: the original svg schematic element
+        Filename: the filename to save it to
+        """
         try:
             svg = rsvg_di.rsvg.Handle(source)
             width = svg.props.width
@@ -364,14 +379,9 @@ class main(pyglet.window.Window):
         except:
             print("error exporting to png")
 
-         
-       
-
-
         
     def on_draw(self):
         
-
         if self.testcontainer.selectedelement is not None:
             self.svg=self.testcontainer.selectedelement.svg
             if len(self.svg.textList)>0:
